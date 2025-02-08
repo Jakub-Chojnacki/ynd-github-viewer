@@ -17,6 +17,7 @@ import useGetUsers from "@queries/useGetUsers";
 const MainView = () => {
   const searchTerm = useAtomValue(searchTermAtom);
   const { data, isLoading, error } = useGetUsers({ searchTerm });
+  
   return (
     <Container>
       <Typography component="h1" variant="h4">

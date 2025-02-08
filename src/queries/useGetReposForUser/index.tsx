@@ -1,15 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-
+import { useInfiniteQuery } from "@tanstack/react-query";
 import apiClient from "@api/apiClient";
-
 import { TUseGetReposForUserParams } from "./types";
 import { RepoResponseSchema, TRepoResponse, TSingleRepo } from "./schema";
 
-const useGetReposForUser = ({ login }: TUseGetReposForUserParams) => {
-  //TODO: Refactor this to use infiniteScroll
-  const getRepos = async (): Promise<TSingleRepo[]> => {
+const useGetReposForUser = ({
+  login,
+  perPage = 10,
+}: TUseGetReposForUserParams) => {
+  const getRepos = async ({ pageParam = 1 }): Promise<TSingleRepo[]> => {
     const response = await apiClient.get<TRepoResponse>(
-      `/users/${login}/repos?sort=updated`
+      `/users/${login}/repos?sort=updated&page=${pageParam}&per_page=${perPage}`
     );
 
     const { data, success } = RepoResponseSchema.safeParse(response.data);
@@ -21,10 +21,14 @@ const useGetReposForUser = ({ login }: TUseGetReposForUserParams) => {
     return data;
   };
 
-  const query = useQuery({
+  const query = useInfiniteQuery({
     queryKey: ["getRepos", login],
     queryFn: getRepos,
     enabled: !!login,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === perPage ? allPages.length + 1 : undefined;
+    },
+    initialPageParam: 1,
   });
 
   return query;

@@ -9,7 +9,7 @@ const SingleRepositoryCard = ({
   name,
 }: TSingleRepositoryCardProps) => {
   return (
-    <Card variant="outlined" sx={{ my: 1 }}>
+    <Card variant="outlined" sx={{ my: 1, width:'100%' }}>
       <CardContent>
         <Box
           sx={{
