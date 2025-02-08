@@ -8,6 +8,9 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
+      "@queries": path.resolve(__dirname, "src/queries"),
+      "@components": path.resolve(__dirname, "src/components"),
+      "@api": path.resolve(__dirname, "src/api"),
     },
   },
 });
