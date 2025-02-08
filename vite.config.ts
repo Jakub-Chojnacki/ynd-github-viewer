@@ -11,6 +11,7 @@ export default defineConfig({
       "@queries": path.resolve(__dirname, "src/queries"),
       "@components": path.resolve(__dirname, "src/components"),
       "@api": path.resolve(__dirname, "src/api"),
+      "@store": path.resolve(__dirname, "src/store"),
     },
   },
 });

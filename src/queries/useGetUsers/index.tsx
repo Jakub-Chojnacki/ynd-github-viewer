@@ -24,6 +24,7 @@ const useGetUsers = ({ searchTerm, perPage = 5 }: TUseGetUsersParams) => {
     queryKey: ["getUsers", searchTerm],
     queryFn: getUsers,
     enabled: !!searchTerm,
+    gcTime: 1000 * 60 * 60, // 1 hour in ms; users don't change often
   });
 
   return query;

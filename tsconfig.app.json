@@ -27,6 +27,7 @@
       "@queries/*": ["src/queries/*"],
       "@components/*": ["src/components/*"],
       "@api/*": ["src/api/*"],
+      "@store/*": ["src/store/*"]
     }
   },
   "include": ["src"]

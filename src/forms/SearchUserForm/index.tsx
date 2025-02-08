@@ -1,12 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Container, TextField } from "@mui/material";
+import { Button, Container, TextField, Typography } from "@mui/material";
+import { useAtom } from "jotai";
 import { Controller, useForm } from "react-hook-form";
 
-import { SearchUserFormSchema, TSearchUserForm } from "./schema";
-import { TSearchUserFormProps } from "./types";
+import { searchTermAtom } from "@/store/atoms";
 
-const SearchUserForm = ({ setSearchTerm }: TSearchUserFormProps) => {
-  const { control, handleSubmit } = useForm<TSearchUserForm>({
+import { SearchUserFormSchema, TSearchUserForm } from "./schema";
+
+const SearchUserForm = () => {
+  const [searchTerm, setSearchTerm] = useAtom(searchTermAtom);
+
+  const { control, handleSubmit, formState } = useForm<TSearchUserForm>({
     resolver: zodResolver(SearchUserFormSchema),
     defaultValues: {
       query: "",
@@ -31,14 +35,22 @@ const SearchUserForm = ({ setSearchTerm }: TSearchUserFormProps) => {
               variant="outlined"
               error={!!error}
               helperText={error?.message}
-              sx={{ mb: 2 }}
             />
           )}
         />
-        <Button type="submit" variant="contained">
+        <Button
+          type="submit"
+          variant="contained"
+          disabled={!formState.isValid}
+          fullWidth
+          sx={{ my: 2 }}
+        >
           Search
         </Button>
       </form>
+      {searchTerm && (
+        <Typography variant="body1">Showing users for: {searchTerm}</Typography>
+      )}
     </Container>
   );
 };
