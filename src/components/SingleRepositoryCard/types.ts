@@ -1,5 +1,3 @@
-export type TSingleRepositoryCardProps = {
-  title: string;
-  description: string;
-  stars: number;
-};
+import { TSingleRepo } from "@/queries/useGetReposForUser/schema";
+
+export type TSingleRepositoryCardProps = TSingleRepo;

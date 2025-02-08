@@ -5,10 +5,10 @@ import apiClient from "@api/apiClient";
 import { TUseGetUsersParams } from "./types";
 import { TSingleUser, TUserResponse, UserResponseSchema } from "./schema";
 
-const useGetUsers = ({ searchTerm }: TUseGetUsersParams) => {
+const useGetUsers = ({ searchTerm, perPage = 5 }: TUseGetUsersParams) => {
   const getUsers = async (): Promise<TSingleUser[]> => {
     const response = await apiClient.get<TUserResponse>(
-      `/search/users?q=${searchTerm}&per_page=5`
+      `/search/users?q=${searchTerm}&per_page=${perPage}`
     );
 
     const { data, success } = UserResponseSchema.safeParse(response.data);

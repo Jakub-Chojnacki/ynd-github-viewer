@@ -5,13 +5,13 @@ import { TSingleRepositoryCardProps } from "./types";
 
 const SingleRepositoryCard = ({
   description,
-  stars,
-  title,
+  stargazers_count,
+  name
 }: TSingleRepositoryCardProps) => {
   return (
     <CardContent
       sx={{
-        maxWidth: 250,
+        maxWidth: 400,
       }}
     >
       <Box
@@ -21,9 +21,9 @@ const SingleRepositoryCard = ({
           justifyContent: "space-between",
         }}
       >
-        <Typography component="h2">{title}</Typography>
+        <Typography component="h2">{name}</Typography>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography>{stars}</Typography>
+          <Typography>{stargazers_count}</Typography>
           <StarIcon fontSize="small"/>
         </Box>
       </Box>

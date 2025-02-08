@@ -1,22 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
-import useGetUsers from "@queries/useGetUsers";
-import SearchUserForm from "@/forms/SearchUserForm";
+import { Box, CircularProgress, Container } from "@mui/material";
+
 import SingleUserAccordion from "@/components/SingleUserAccordion";
+import SearchUserForm from "@/forms/SearchUserForm";
+import useGetUsers from "@queries/useGetUsers";
 
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const { data } = useGetUsers({ searchTerm });
+  const { data, isLoading } = useGetUsers({ searchTerm });
 
   return (
-    <div>
-      <h3>Github Viewer</h3>
-      <SearchUserForm setSearchTerm={setSearchTerm}/>
-      {data?.map((user) => (
-        <SingleUserAccordion login={user.login} key={user.id} />
-      ))}
-    </div>
+    <Container>
+      <h1>Github Viewer</h1>
+      <SearchUserForm setSearchTerm={setSearchTerm} />
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        {isLoading && <CircularProgress />}
+        {data?.map((user) => (
+          <SingleUserAccordion login={user.login} key={user.id} />
+        ))}
+      </Box>
+    </Container>
   );
 };
 
