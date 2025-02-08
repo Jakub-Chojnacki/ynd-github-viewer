@@ -9,7 +9,7 @@ const SingleRepositoryCard = ({
   name,
 }: TSingleRepositoryCardProps) => {
   return (
-    <Card variant="outlined" sx={{ my: 1, width:'100%' }}>
+    <Card variant="outlined" sx={{ my: 1, width: "100%" }}>
       <CardContent>
         <Box
           sx={{
@@ -22,7 +22,10 @@ const SingleRepositoryCard = ({
             {name}
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Typography>{stargazers_count}</Typography>
+            {/* maxHeight is used to optically align the text with StarIcon */}
+            <Typography sx={{ maxHeight: "1.25rem" }}>
+              {stargazers_count}
+            </Typography>
             <StarIcon fontSize="small" />
           </Box>
         </Box>

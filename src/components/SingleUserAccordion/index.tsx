@@ -4,16 +4,17 @@ import {
   AccordionDetails,
   AccordionSummary,
   Alert,
+  Box,
+  Button,
   CircularProgress,
   Typography,
-  Button,
-  Box,
 } from "@mui/material";
 
 import useGetReposForUser from "@/queries/useGetReposForUser";
 import SingleRepositoryCard from "@components/SingleRepositoryCard";
 
 import { TSingleUserAccordionProps } from "./types";
+import { repositoriesErrorMessage } from "./const";
 
 const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
   const {
@@ -24,6 +25,8 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
     hasNextPage,
     isFetchingNextPage,
   } = useGetReposForUser({ login });
+
+  const noRepositories = !data?.pages?.[0].length && !isLoading && !error;
 
   return (
     <Accordion sx={{ width: "100%" }}>
@@ -38,13 +41,7 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
           px: 2,
         }}
       >
-        <Box sx={{width:'100%'}}>
-          {error && (
-            <Alert severity="error" sx={{ flex: 1 }}>
-              {error.message}
-            </Alert>
-          )}
-
+        <Box sx={{ width: "100%" }}>
           {isLoading && (
             <CircularProgress
               sx={{ ml: "auto", mr: "auto", display: "block" }}
@@ -55,7 +52,7 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
             page.map((repo) => <SingleRepositoryCard key={repo.id} {...repo} />)
           )}
 
-          {!data?.pages?.[0].length  && <Typography>No repositories</Typography>}
+          {noRepositories && <Typography>No repositories</Typography>}
 
           {hasNextPage && (
             <Button
@@ -64,6 +61,12 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
             >
               {isFetchingNextPage ? "Loading more..." : "Load More"}
             </Button>
+          )}
+
+          {error && (
+            <Alert severity="error" sx={{ flex: 1 }}>
+              {repositoriesErrorMessage}
+            </Alert>
           )}
         </Box>
       </AccordionDetails>

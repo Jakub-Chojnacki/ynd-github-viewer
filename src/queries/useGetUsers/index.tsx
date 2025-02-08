@@ -14,7 +14,7 @@ const useGetUsers = ({ searchTerm, perPage = 5 }: TUseGetUsersParams) => {
     const { data, success } = UserResponseSchema.safeParse(response.data);
 
     if (!success) {
-      throw new Error("There was an error while fetching users data");
+      throw new Error("The users data was malformed!");
     }
 
     return data.items;

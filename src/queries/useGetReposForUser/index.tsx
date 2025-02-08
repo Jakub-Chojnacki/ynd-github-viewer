@@ -15,7 +15,7 @@ const useGetReposForUser = ({
     const { data, success } = RepoResponseSchema.safeParse(response.data);
 
     if (!success) {
-      throw new Error("There was an error while fetching user's repositories");
+      throw new Error("The repositories data was malformed!");
     }
 
     return data;
