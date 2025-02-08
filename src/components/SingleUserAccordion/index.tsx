@@ -5,13 +5,14 @@ import {
   AccordionSummary,
   Alert,
   Box,
-  Button,
   CircularProgress,
   Typography,
 } from "@mui/material";
 
 import useGetReposForUser from "@/queries/useGetReposForUser";
+
 import SingleRepositoryCard from "@components/SingleRepositoryCard";
+import LoadMoreButton from "@components/LoadMoreButton";
 
 import { TSingleUserAccordionProps } from "./types";
 import { repositoriesErrorMessage } from "./const";
@@ -26,10 +27,10 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
     isFetchingNextPage,
   } = useGetReposForUser({ login });
 
-  const noRepositories = !data?.pages?.[0].length && !isLoading && !error;
+  const noRepositories = !isLoading && !error && !data?.pages?.[0]?.length;
 
   return (
-    <Accordion sx={{ width: "100%" }}>
+    <Accordion sx={{ width: "100%" }} data-testid="user-accordion">
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>{login}</Typography>
       </AccordionSummary>
@@ -55,12 +56,10 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
           {noRepositories && <Typography>No repositories</Typography>}
 
           {hasNextPage && (
-            <Button
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-            >
-              {isFetchingNextPage ? "Loading more..." : "Load More"}
-            </Button>
+            <LoadMoreButton
+              fetchNextPage={fetchNextPage}
+              isFetchingNextPage={isFetchingNextPage}
+            />
           )}
 
           {error && (

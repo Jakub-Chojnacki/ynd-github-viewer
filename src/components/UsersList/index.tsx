@@ -24,9 +24,13 @@ const UsersList = () => {
         width: "100%",
       }}
     >
-      {error && <Alert severity="error">{usersErrorMessage} </Alert>}
+      {error && (
+        <Alert severity="error" data-testid="users-error">
+          {usersErrorMessage}
+        </Alert>
+      )}
 
-      {isLoading && <CircularProgress />}
+      {isLoading && <CircularProgress data-testid="users-loading" />}
 
       {data?.map((user) => (
         <SingleUserAccordion login={user.login} key={user.id} />

@@ -4,6 +4,7 @@ import PersonOffIcon from "@mui/icons-material/PersonOff";
 const NoUsersFound = () => {
   return (
     <Box
+      data-testid="no-users-found"
       sx={{
         display: "flex",
         flexDirection: "column",

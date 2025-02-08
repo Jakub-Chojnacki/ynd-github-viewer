@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useAtom } from "jotai";
 import { Controller, useForm } from "react-hook-form";
 
@@ -22,7 +22,7 @@ const SearchUserForm = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+    <Box sx={{ my: 4 }}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
           name="query"
@@ -51,7 +51,7 @@ const SearchUserForm = () => {
       {searchTerm && (
         <Typography variant="body1">Showing users for: {searchTerm}</Typography>
       )}
-    </Container>
+    </Box>
   );
 };
 

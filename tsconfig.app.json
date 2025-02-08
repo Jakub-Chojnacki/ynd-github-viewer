@@ -30,5 +30,5 @@
       "@store/*": ["src/store/*"]
     }
   },
-  "include": ["src"]
+  "include": ["cypress", "src"]
 }
