@@ -90,7 +90,7 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
           )}
 
           {noRepositories && (
-            <Typography>{noRepositoriesFoundMessage}</Typography>
+            <Typography data-testid="no-repositories">{noRepositoriesFoundMessage}</Typography>
           )}
 
           {hasNextPage && (
