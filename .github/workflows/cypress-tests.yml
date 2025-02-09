@@ -1,25 +1,16 @@
-name: End-to-end Cypress tests
+name: Cypress Tests
 
 on: push
 
 jobs:
   cypress-run:
     runs-on: ubuntu-24.04
-    services:
-      - name: Start Vite server
-        run: |
-          npm install 
-          npm run dev & 
-          npx wait-on http://localhost:5173
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: npm install
-
+        
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          start: false # Don't start Cypress server since we already have it running
-          baseUrl: http://localhost:5173
+          install: npm install
+          dev: npm run dev
