@@ -18,7 +18,14 @@ const SingleRepositoryCard = ({
             justifyContent: "space-between",
           }}
         >
-          <Typography component="h2" fontWeight="700" fontSize="large">
+          <Typography
+            component="h2"
+            fontWeight="700"
+            fontSize={{
+              xs: "medium",
+              sm: "large",
+            }}
+          >
             {name}
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center" }}>
