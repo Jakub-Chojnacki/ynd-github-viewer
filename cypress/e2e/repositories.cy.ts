@@ -12,6 +12,7 @@ describe("Repositories for users", () => {
   const loadMoreButtonQuery = '[data-testid="load-more-button"]';
   const repositoriesLoadingQuery = '[data-testid="repositories-loading"]';
   const userAccordionQuery = '[data-testid^="user-accordion"]';
+  const noRepositoriesQuery = '[data-testid="no-repositories"]';
 
   beforeEach(() => {
     cy.visit("/");
@@ -55,11 +56,14 @@ describe("Repositories for users", () => {
     }).as("getRepositories");
 
     cy.get(userAccordionQuery).first().click();
-    cy.get(repositoriesLoadingQuery).should("be.visible");
+
+    const repositoriesLoading = cy.get(repositoriesLoadingQuery);
+
+    repositoriesLoading.should("be.visible");
 
     cy.wait("@getRepositories");
 
-    cy.get(repositoriesLoadingQuery).should("not.exist");
+    repositoriesLoading.should("not.exist");
   });
 
   it("displays load more button when there are more repositories to be loaded", () => {
@@ -93,13 +97,15 @@ describe("Repositories for users", () => {
       body: getFakeRepos(7),
     }).as("getLessRepositories");
 
-    cy.get(loadMoreButtonQuery).should("be.visible");
+    const loadMoreButton = cy.get(loadMoreButtonQuery);
 
-    cy.get(loadMoreButtonQuery).first().click();
+    loadMoreButton.should("be.visible");
+
+    loadMoreButton.first().click();
 
     cy.wait("@getLessRepositories");
 
-    cy.get(loadMoreButtonQuery).should("not.exist");
+    loadMoreButton.should("not.exist");
   });
 
   it("displays 'No repositories found' when user has none", () => {
@@ -112,7 +118,7 @@ describe("Repositories for users", () => {
 
     cy.wait("@getRepositories");
 
-    cy.get('[data-testid="no-repositories"]').should("be.visible");
+    cy.get(noRepositoriesQuery).should("be.visible");
   });
 
   it("displays an error Alert when API request fails and hides loader", () => {
@@ -146,6 +152,8 @@ describe("Repositories for users", () => {
     cy.wait("@getMoreRepositories");
 
     //MUI Snackbar has role presentation
-    cy.get('[role="presentation"]').contains("There was an error").should("be.visible");
+    cy.get('[role="presentation"]')
+      .contains("There was an error")
+      .should("be.visible");
   });
 });

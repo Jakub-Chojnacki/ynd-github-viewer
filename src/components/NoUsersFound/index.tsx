@@ -10,7 +10,7 @@ const NoUsersFound = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        height: "60vh",
+        height: "40vh",
         textAlign: "center",
         color: "text.secondary",
       }}

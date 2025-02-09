@@ -1,4 +1,9 @@
 describe("GitHub User Search", () => {
+  const userAccordionQuery = '[data-testid^="user-accordion"]';
+  const usersLoadingQuery = '[data-testid="users-loading"]';
+  const noUsersQuery = '[data-testid="no-users-found"]';
+  const usersErrorQuery = '[data-testid="users-error"]';
+
   beforeEach(() => {
     cy.visit("/");
   });
@@ -21,8 +26,8 @@ describe("GitHub User Search", () => {
 
     cy.wait("@getUsers");
 
-    cy.get('[data-testid="users-loading"]').should("not.exist");
-    cy.get('[data-testid^="user-accordion"]').first().should("exist");
+    cy.get(usersLoadingQuery).should("not.exist");
+    cy.get(userAccordionQuery).first().should("exist");
   });
 
   it("displays 'No users found' when search returns empty", () => {
@@ -36,7 +41,7 @@ describe("GitHub User Search", () => {
 
     cy.wait("@getNoUsers");
 
-    cy.get('[data-testid="no-users-found"]').should("be.visible");
+    cy.get(noUsersQuery).should("be.visible");
   });
 
   it("displays an error message when API request fails", () => {
@@ -50,8 +55,6 @@ describe("GitHub User Search", () => {
 
     cy.wait("@getError");
 
-    cy.get('[data-testid="users-error"]', { timeout: 8000 }).should(
-      "be.visible"
-    );
+    cy.get(usersErrorQuery, { timeout: 8000 }).should("be.visible");
   });
 });
