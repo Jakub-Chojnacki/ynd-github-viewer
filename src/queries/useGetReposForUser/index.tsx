@@ -1,13 +1,17 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
+
 import apiClient from "@api/apiClient";
-import { TUseGetReposForUserParams } from "./types";
+
 import { RepoResponseSchema, TRepoResponse, TSingleRepo } from "./schema";
+import { TUseGetReposForUserParams } from "./types";
 
 const useGetReposForUser = ({
   login,
   perPage = 10,
 }: TUseGetReposForUserParams) => {
-  const getRepos = async ({ pageParam = 1 }): Promise<TSingleRepo[]> => {
+  const getRepos = async ({
+    pageParam = 1,
+  }: QueryFunctionContext): Promise<TSingleRepo[]> => {
     const response = await apiClient.get<TRepoResponse>(
       `/users/${login}/repos?sort=updated&page=${pageParam}&per_page=${perPage}`
     );

@@ -3,7 +3,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Alert,
   Box,
   CircularProgress,
   Typography,
@@ -11,8 +10,9 @@ import {
 
 import useGetReposForUser from "@/queries/useGetReposForUser";
 
-import SingleRepositoryCard from "@components/SingleRepositoryCard";
 import LoadMoreButton from "@components/LoadMoreButton";
+import SingleRepositoryCard from "@components/SingleRepositoryCard";
+import InfiniteQueryErrorNotification from "@components/InfiniteQueryErrorNotification";
 
 import { TSingleUserAccordionProps } from "./types";
 import { repositoriesErrorMessage } from "./const";
@@ -62,11 +62,11 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
             />
           )}
 
-          {error && (
-            <Alert severity="error" sx={{ flex: 1 }}>
-              {repositoriesErrorMessage}
-            </Alert>
-          )}
+          <InfiniteQueryErrorNotification
+            error={error}
+            hasData={!!data}
+            customErrorMessage={repositoriesErrorMessage}
+          />
         </Box>
       </AccordionDetails>
     </Accordion>
