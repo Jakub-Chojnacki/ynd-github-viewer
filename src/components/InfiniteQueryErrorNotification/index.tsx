@@ -16,7 +16,7 @@ const InfiniteQueryErrorNotification = ({
     }
   }, [error, hasData]);
 
-  const handleCloseSnackbar = ():void => {
+  const handleCloseSnackbar = (): void => {
     setShowSnackbar(false);
   };
 
@@ -33,7 +33,10 @@ const InfiniteQueryErrorNotification = ({
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
         message={errorMessage}
-      />
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert severity="error">{errorMessage}</Alert>
+      </Snackbar>
     </>
   );
 };
