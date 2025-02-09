@@ -4,9 +4,10 @@ import { Alert, Box, CircularProgress } from "@mui/material";
 
 import { searchTermAtom } from "@/store/atoms";
 
+import useGetUsers from "@queries/useGetUsers";
+
 import NoUsersFound from "@components/NoUsersFound";
 import SingleUserAccordion from "@components/SingleUserAccordion";
-import useGetUsers from "@queries/useGetUsers";
 
 import { usersErrorMessage } from "./const";
 

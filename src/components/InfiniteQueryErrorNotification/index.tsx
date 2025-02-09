@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
-import { TInfiniteQueryErrorNotificationProps } from "./types";
 import { Alert, Snackbar } from "@mui/material";
+
+import { TInfiniteQueryErrorNotificationProps } from "./types";
 
 const InfiniteQueryErrorNotification = ({
   error,
