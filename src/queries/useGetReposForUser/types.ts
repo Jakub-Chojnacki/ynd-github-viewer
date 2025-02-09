@@ -1,3 +1,5 @@
+import { TSingleRepo } from "./schema";
+
 export type TUseGetReposForUserParams = {
   login: string;
   expanded: boolean;
@@ -8,4 +10,9 @@ export type TGetReposParams = {
   pageParam: number;
   login: TUseGetReposForUserParams["login"];
   perPage: TUseGetReposForUserParams["perPage"];
+};
+
+export type TGetRepos = {
+  data: TSingleRepo[];
+  hasNextPage: boolean;
 };

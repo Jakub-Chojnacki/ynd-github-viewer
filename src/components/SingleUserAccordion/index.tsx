@@ -56,7 +56,7 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
     triedToPrefetch.current = true;
   };
 
-  const noRepositories = !isLoading && !error && !data?.pages?.[0]?.length;
+  const noRepositories = !isLoading && !error && !data?.pages?.[0]?.data.length;
 
   return (
     <Accordion
@@ -86,11 +86,15 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
           )}
 
           {data?.pages.map((page) =>
-            page.map((repo) => <SingleRepositoryCard key={repo.id} {...repo} />)
+            page.data.map((repo) => (
+              <SingleRepositoryCard key={repo.id} {...repo} />
+            ))
           )}
 
           {noRepositories && (
-            <Typography data-testid="no-repositories">{noRepositoriesFoundMessage}</Typography>
+            <Typography data-testid="no-repositories">
+              {noRepositoriesFoundMessage}
+            </Typography>
           )}
 
           {hasNextPage && (
