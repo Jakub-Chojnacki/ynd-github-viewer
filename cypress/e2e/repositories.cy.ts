@@ -9,6 +9,10 @@ describe("Repositories for users", () => {
     }));
   };
 
+  const headersWithNextPage = {
+    link: 'rel="next"',
+  };
+
   const loadMoreButtonQuery = '[data-testid="load-more-button"]';
   const repositoriesLoadingQuery = '[data-testid="repositories-loading"]';
   const userAccordionQuery = '[data-testid^="user-accordion"]';
@@ -71,6 +75,7 @@ describe("Repositories for users", () => {
       statusCode: 200,
       body: getFakeRepos(10),
       delay: 2000,
+      headers: headersWithNextPage,
     }).as("getRepositories");
 
     cy.get(userAccordionQuery).first().click();
@@ -86,6 +91,7 @@ describe("Repositories for users", () => {
     cy.intercept("GET", "**/users/*/repos*", {
       statusCode: 200,
       body: getFakeRepos(10),
+      headers: headersWithNextPage,
     }).as("getRepositories");
 
     cy.get(userAccordionQuery).first().click();
@@ -137,6 +143,7 @@ describe("Repositories for users", () => {
     cy.intercept("GET", "**/users/*/repos*", {
       statusCode: 200,
       body: getFakeRepos(10),
+      headers: headersWithNextPage,
     }).as("getRepositories");
 
     cy.get(userAccordionQuery).first().click();
