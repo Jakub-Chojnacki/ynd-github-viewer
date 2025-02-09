@@ -1,3 +1,6 @@
+import { useQueryClient } from "@tanstack/react-query";
+import { useRef, useState } from "react";
+
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
@@ -8,16 +11,21 @@ import {
   Typography,
 } from "@mui/material";
 
-import useGetReposForUser from "@/queries/useGetReposForUser";
+import useGetReposForUser, { getRepos } from "@/queries/useGetReposForUser";
 
+import InfiniteQueryErrorNotification from "@components/InfiniteQueryErrorNotification";
 import LoadMoreButton from "@components/LoadMoreButton";
 import SingleRepositoryCard from "@components/SingleRepositoryCard";
-import InfiniteQueryErrorNotification from "@components/InfiniteQueryErrorNotification";
 
+import { noRepositoriesFoundMessage, repositoriesErrorMessage } from "./const";
 import { TSingleUserAccordionProps } from "./types";
-import { repositoriesErrorMessage } from "./const";
 
 const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
+  const queryClient = useQueryClient();
+  const [expanded, setExpanded] = useState(false);
+
+  const triedToPrefetch = useRef(false);
+
   const {
     data,
     error,
@@ -25,12 +33,39 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useGetReposForUser({ login });
+  } = useGetReposForUser({ login, expanded });
+
+  const handleAccordionChange = (
+    _: React.SyntheticEvent,
+    isExpanded: boolean
+  ) => {
+    setExpanded(isExpanded);
+  };
+
+  const handlePrefetch = async (): Promise<void> => {
+    // Prevents prefetching multiple times if the user hovers over the accordion a lot of times
+    if (triedToPrefetch.current) return;
+
+    await queryClient.prefetchInfiniteQuery({
+      queryKey: ["getRepos", login],
+      queryFn: () => getRepos({ login, pageParam: 1, perPage: 10 }),
+      initialPageParam: 1,
+      staleTime: Infinity,
+    });
+
+    triedToPrefetch.current = true;
+  };
 
   const noRepositories = !isLoading && !error && !data?.pages?.[0]?.length;
 
   return (
-    <Accordion sx={{ width: "100%" }} data-testid="user-accordion">
+    <Accordion
+      sx={{ width: "100%" }}
+      data-testid={`user-accordion-${login}`}
+      expanded={expanded}
+      onChange={handleAccordionChange}
+      onMouseOver={handlePrefetch}
+    >
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <Typography>{login}</Typography>
       </AccordionSummary>
@@ -45,6 +80,7 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
         <Box sx={{ width: "100%" }}>
           {isLoading && (
             <CircularProgress
+              data-testid="repositories-loading"
               sx={{ ml: "auto", mr: "auto", display: "block" }}
             />
           )}
@@ -53,7 +89,9 @@ const SingleUserAccordion = ({ login }: TSingleUserAccordionProps) => {
             page.map((repo) => <SingleRepositoryCard key={repo.id} {...repo} />)
           )}
 
-          {noRepositories && <Typography>No repositories</Typography>}
+          {noRepositories && (
+            <Typography>{noRepositoriesFoundMessage}</Typography>
+          )}
 
           {hasNextPage && (
             <LoadMoreButton

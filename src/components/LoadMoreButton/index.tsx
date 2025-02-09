@@ -7,7 +7,11 @@ const LoadMoreButton = ({
   isFetchingNextPage,
 }: TLoadMoreButtonProps) => {
   return (
-    <Button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+    <Button
+      onClick={() => fetchNextPage()}
+      disabled={isFetchingNextPage}
+      data-testid="load-more-button"
+    >
       {isFetchingNextPage ? "Loading more..." : "Load More"}
     </Button>
   );
