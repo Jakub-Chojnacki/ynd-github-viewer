@@ -39,7 +39,6 @@ const useGetReposForUser = ({
     queryFn: ({ ...props }) => getRepos({ login, perPage, ...props }),
     enabled: !!login && expanded,
     getNextPageParam: ({ hasNextPage }, allPages) => {
-      console.log(hasNextPage, allPages);
       return hasNextPage ? allPages.length + 1 : undefined;
     },
     initialPageParam: 1,
